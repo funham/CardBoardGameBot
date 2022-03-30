@@ -12,7 +12,7 @@ def send_welcome(message):
 
 @bot.message_handler(commands=['bunny'])
 def on_mafia(message):
-    bunny.init()
+    bunny.on_message(bot, message)
 
 
 bot.infinity_polling()
