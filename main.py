@@ -1,6 +1,7 @@
-import imp
 import telebot
 from games import bunny
+
+sessions = {}
 
 bot = telebot.TeleBot('5153566900:AAEnwjIGmi2g1KlRCDow7zTWCBM_hMnpySY')
 
