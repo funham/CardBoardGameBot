@@ -1,4 +1,3 @@
-from matplotlib.pyplot import text
 from telebot import types
 import random
 from .bunny_lists import *
