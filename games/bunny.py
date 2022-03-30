@@ -23,7 +23,7 @@ def on_message(bot, message):
                 message.from_user.id)
         except Exception:
             bot.send_message(message.chat.id, 'Сначала начните со мной диалог')
-    if cmd == 'start':
+    elif cmd == 'start':
         keyboard = types.InlineKeyboardMarkup()  # наша клавиатура
 
         for cat in lists:
@@ -33,6 +33,9 @@ def on_message(bot, message):
 
         bot.send_message(message.chat.id, text='Выберете категорию:',
                          reply_markup=keyboard)
+    elif cmd == 'help':
+        with open('Rules', 'r', encoding='utf-8') as f:
+            bot.send_message(message.chat.id, text=f.read())
 
 
 def on_keyboard(bot, call):
