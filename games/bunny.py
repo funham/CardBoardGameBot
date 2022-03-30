@@ -36,6 +36,30 @@ def on_message(bot, message):
 
 
 def on_keyboard(bot, call):
+    if call.data in lists:
+        start_game(bot, call)
+    else:
+        see_bunny(bot, call)
+        pass
+
+
+def see_bunny(bot, call):
+    chat_id = call.message.chat.id
+    p_id = call.data  # id
+    p_name = bot.get_chat_member(chat_id, p_id).user.first_name
+    bunny_id = sessions[chat_id]['bunny_id']
+    bunny_un = bot.get_chat_member(chat_id, bunny_id).user.first_name
+    if (str(p_id) == str(bunny_id)):
+        msg = f'Охотники побеждают! {bunny_un} был зайцем!'
+    else:
+        msg = f'Ой-ой-ой... {p_name} не был зайцем! {bunny_un} остался незамеченным xD'
+
+    bot.edit_message_text(
+        chat_id=chat_id, message_id=call.message.id, text=msg)
+    sessions[chat_id]['bunny_id'] = None
+
+
+def start_game(bot, call):
     chat_id = call.message.chat.id
     if len(sessions[chat_id]['player_ids']) < 3:
         return bot.send_message(chat_id, text='Мало игроков')
@@ -59,3 +83,14 @@ def on_keyboard(bot, call):
             bot.send_message(bunny_id, text='Ты заяц :3')
         else:
             bot.send_message(id, text=word)
+
+    keyboard = types.InlineKeyboardMarkup()
+
+    chat_id = call.message.chat.id
+    for p_id in sessions[chat_id]['player_ids']:
+        key = types.InlineKeyboardButton(
+            text=bot.get_chat_member(chat_id, p_id).user.first_name,
+            callback_data=p_id)
+        keyboard.add(key)
+
+    bot.send_message(chat_id, text='Кто же заяц?', reply_markup=keyboard)
