@@ -16,4 +16,8 @@ def on_mafia(message):
     bunny.on_message(bot, message)
 
 
+@bot.callback_query_handler(func=lambda call: True)
+def callback_worker(call):
+    bunny.on_keyboard(call)
+
 bot.infinity_polling()
