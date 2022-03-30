@@ -10,7 +10,8 @@ def on_message(bot, message):
     cmd = contentArr[0]
     if contentArr and cmd == 'reg':
         try:
-            bot.send_message(message.from_user.id, 'hello')
+            bot.send_message(message.from_user.id, 'Вы были зарегестрированы')
+            games[message.chat.id]["player_ids"].append(message.from_user.id)
         except Exception:
             bot.send_message(message.chat.id, 'Сначала начните со мной диалог')
     if contentArr and cmd == 'start':
